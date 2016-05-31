@@ -1,4 +1,5 @@
 package grap;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,9 +10,13 @@ import java.util.ArrayList;
  * is described by the Edges incident to it. 
  * 
  */
-public class Vertex {
+public class Vertex implements Serializable{
 
-    private ArrayList<Edge> neighborhood;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private ArrayList<Edge> neighborhood;
     private String label;
     
     /**

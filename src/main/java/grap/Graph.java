@@ -1,45 +1,48 @@
 package grap;
 import java.util.*;
 
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.core.HazelcastInstance;
+
 /**
  * This class models a simple, undirected graph using an 
- * incidence list representation. Vertices are identified 
- * uniquely by their labels, and only unique vertices are allowed.
+ * incidence list representation. client.getMap("vertices") are identified 
+ * uniquely by their labels, and only unique client.getMap("vertices") are allowed.
  * At most one Edge per vertex pair is allowed in this Graph.
  * 
  * Note that the Graph is designed to manage the Edges. You
  * should not attempt to manually add Edges yourself.
  */
 public class Graph {
-    
-    private HashMap<String, Vertex> vertices;
-    private HashMap<Integer, Edge> edges;
-    
+        
+	HazelcastInstance client = null;
     public Graph(){
-        this.vertices = new HashMap<String, Vertex>();
-        this.edges = new HashMap<Integer, Edge>();
+    	 ClientConfig clientConfig = new ClientConfig();
+         clientConfig.addAddress("127.0.0.1:5701");
+         client = HazelcastClient.newHazelcastClient(clientConfig);
     }
     
     /**
      * This constructor accepts an ArrayList<Vertex> and populates
-     * this.vertices. If multiple Vertex objects have the same label,
+     * this.client.getMap("vertices"). If multiple Vertex objects have the same label,
      * then the last Vertex with the given label is used. 
      * 
-     * @param vertices The initial Vertices to populate this Graph
+     * @param client.getMap("vertices") The initial client.getMap("vertices") to populate this Graph
      */
-    public Graph(ArrayList<Vertex> vertices){
-        this.vertices = new HashMap<String, Vertex>();
+   /* public Graph(ArrayList<Vertex> client.getMap("vertices")){
+        this.client.getMap("vertices") = new HashMap<String, Vertex>();
         this.edges = new HashMap<Integer, Edge>();
         
-        for(Vertex v: vertices){
-            this.vertices.put(v.getLabel(), v);
+        for(Vertex v: client.getMap("vertices")){
+            this.client.getMap("vertices").put(v.getLabel(), v);
         }
         
-    }
+    }*/
     
     /**
-     * This method adds am edge between Vertices one and two
-     * of weight 1, if no Edge between these Vertices already
+     * This method adds am edge between client.getMap("vertices") one and two
+     * of weight 1, if no Edge between these client.getMap("vertices") already
      * exists in the Graph.
      * 
      * @param one The first vertex to add
@@ -52,7 +55,7 @@ public class Graph {
     
     
     /**
-     * Accepts two vertices and a weight, and adds the edge 
+     * Accepts two client.getMap("vertices") and a weight, and adds the edge 
      * ({one, two}, weight) iff no Edge relating one and two 
      * exists in the Graph.
      * 
@@ -68,16 +71,16 @@ public class Graph {
        
         //ensures the Edge is not in the Graph
         Edge e = new Edge(one, two, weight);
-        if(edges.containsKey(e.hashCode())){
+        if(client.getMap("edges").containsKey(e.hashCode())){
             return false;
         }
        
-        //and that the Edge isn't already incident to one of the vertices
+        //and that the Edge isn't already incident to one of the client.getMap("vertices")
         else if(one.containsNeighbor(e) || two.containsNeighbor(e)){
             return false;
         }
             
-        edges.put(e.hashCode(), e);
+        client.getMap("edges").put(e.hashCode(), e);
         one.addNeighbor(e);
         two.addNeighbor(e);
         return true;
@@ -93,7 +96,7 @@ public class Graph {
             return false;
         }
         
-        return this.edges.containsKey(e.hashCode());
+        return this.client.getMap("edges").containsKey(e.hashCode());
     }
     
     
@@ -107,7 +110,7 @@ public class Graph {
     public Edge removeEdge(Edge e){
        e.getOne().removeNeighbor(e);
        e.getTwo().removeNeighbor(e);
-       return this.edges.remove(e.hashCode());
+       return (Edge) this.client.getMap("edges").remove(e.hashCode());
     }
     
     /**
@@ -116,7 +119,7 @@ public class Graph {
      * @return true iff this Graph contains vertex
      */
     public boolean containsVertex(Vertex vertex){
-        return this.vertices.get(vertex.getLabel()) != null;
+        return this.client.getMap("vertices").get(vertex.getLabel()) != null;
     }
     
     /**
@@ -125,7 +128,7 @@ public class Graph {
      * @return Vertex The Vertex with the specified label
      */
     public Vertex getVertex(String label){
-        return vertices.get(label);
+        return (Vertex) client.getMap("vertices").get(label);
     }
     
     /**
@@ -139,7 +142,7 @@ public class Graph {
      * @return true iff vertex was added to the Graph
      */
     public boolean addVertex(Vertex vertex, boolean overwriteExisting){
-        Vertex current = this.vertices.get(vertex.getLabel());
+        Vertex current = (Vertex) this.client.getMap("vertices").get(vertex.getLabel());
         if(current != null){
             if(!overwriteExisting){
                 return false;
@@ -151,7 +154,7 @@ public class Graph {
         }
         
         
-        vertices.put(vertex.getLabel(), vertex);
+        client.getMap("vertices").put(vertex.getLabel(), vertex);
         return true;
     }
     
@@ -161,7 +164,7 @@ public class Graph {
      * @return Vertex The removed Vertex object
      */
     public Vertex removeVertex(String label){
-        Vertex v = vertices.remove(label);
+        Vertex v = (Vertex) client.getMap("vertices").remove(label);
         
         while(v.getNeighborCount() > 0){
             this.removeEdge(v.getNeighbor((0)));
@@ -174,16 +177,16 @@ public class Graph {
      * 
      * @return Set<String> The unique labels of the Graph's Vertex objects
      */
-    public Set<String> vertexKeys(){
-        return this.vertices.keySet();
+    public Set<Object> vertexKeys(){
+        return this.client.getMap("vertices").keySet();
     }
     
     /**
      * 
      * @return Set<Edge> The Edges of this graph
      */
-    public Set<Edge> getEdges(){
-        return new HashSet<Edge>(this.edges.values());
+    public Collection<Object> getEdges(){
+        return this.client.getMap("edges").values();
     }
     
 }

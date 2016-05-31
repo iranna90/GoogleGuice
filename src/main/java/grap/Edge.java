@@ -1,4 +1,7 @@
 package grap;
+
+import java.io.Serializable;
+
 /**
  * This class models an undirected Edge in the Graph implementation.
  * An Edge contains two vertices and a weight. If no weight is
@@ -13,9 +16,13 @@ package grap;
  * checking uniqueness of edges, as well as the fact that two edges of equal weight
  * should be considered equitably in a pathfinding or spanning tree algorithm.
  */
-public class Edge implements Comparable<Edge> {
+public class Edge implements Comparable<Edge>,Serializable {
 
-    private Vertex one, two;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Vertex one, two;
     private int weight;
     
     /**

@@ -22,6 +22,13 @@
 			<artifactId>guice</artifactId>
 			<version>3.0</version>
 		</dependency>
+		<!-- http://mvnrepository.com/artifact/com.hazelcast/hazelcast-all -->
+		<dependency>
+			<groupId>com.hazelcast</groupId>
+			<artifactId>hazelcast-all</artifactId>
+			<version>3.6.3</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
