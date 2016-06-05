@@ -10,10 +10,10 @@ import java.util.Scanner;
  */
 
 public class DemoGraph {
-	private static final int NUMBER_OF_DEVICES = 10;
-	private static final int NUMBER_OF_GROUPS = 4;
-	private static final int NUMBER_OF_PACKAGES = 8;
-	private static final int NUMBER_OF_CHANNELS = 3;
+	private static final int NUMBER_OF_DEVICES = 1600;
+	private static final int NUMBER_OF_GROUPS = 16;
+	private static final int NUMBER_OF_PACKAGES = 500;
+	private static final int NUMBER_OF_CHANNELS = 50;
 
 	private static final String DEVICE = "DEVICE";
 	private static final String GROUP = "GROUP";
@@ -23,6 +23,7 @@ public class DemoGraph {
 	Graph graph;
 
 	public static void main(String[] args) {
+		System.out.println("starr");
 		DemoGraph startDemo = new DemoGraph();
 		startDemo.start();
 		startDemo.createVertices();

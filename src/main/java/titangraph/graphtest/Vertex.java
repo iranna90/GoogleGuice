@@ -37,6 +37,8 @@ public class Vertex implements Serializable {
 
 	private String status;
 
+	public Vertex(){}
+	
 	public enum StatusTypes {
 		ACTIVE, OBSOLETE, DELETED
 	}
@@ -171,7 +173,7 @@ public class Vertex implements Serializable {
 	 *
 	 * @return int The number of neighbors of this Vertex
 	 */
-	public int getIncomingEdgeCount() {
+	public int totalIncomingEdgeCount() {
 		return this.incomingEdges.size();
 	}
 
@@ -179,7 +181,7 @@ public class Vertex implements Serializable {
 	 *
 	 * @return int The number of neighbors of this Vertex
 	 */
-	public int getOutgoingEdgeCount() {
+	public int totalOutgoingEdgeCount() {
 		return this.outgoingEdges.size();
 	}
 

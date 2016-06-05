@@ -34,9 +34,12 @@ public class Edge implements Serializable {
 	public enum StatusTypes {
 		ACTIVE, OBSOLETE, DELETED
 	}
-	
+
 	public enum RelationshipTypes {
-		ENCRYPTEDBY,BELONGSTO
+		ENCRYPTEDBY, BELONGSTO
+	}
+
+	public Edge() {
 	}
 
 	/**

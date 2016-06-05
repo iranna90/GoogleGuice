@@ -208,11 +208,11 @@ public class Graph {
 				return false;
 			}
 			// to over write remove all incoming and outgoing edges
-			while (current.getIncomingEdgeCount() > 0) {
+			while (current.totalIncomingEdgeCount() > 0) {
 				this.removeEdge(current.getIncomingEdge(0));
 			}
 
-			while (current.getOutgoingEdgeCount() > 0) {
+			while (current.totalOutgoingEdgeCount() > 0) {
 				this.removeEdge(current.getOutgoingEdge(0));
 			}
 		}
@@ -229,10 +229,10 @@ public class Graph {
 	public Vertex removeVertex(String id) {
 		Vertex vertex = (Vertex) client.getMap(VERTEX_MAP).remove(id);
 		// to over write remove all incoming and outgoing edges
-		while (vertex.getIncomingEdgeCount() > 0) {
+		while (vertex.totalIncomingEdgeCount() > 0) {
 			this.removeEdge(vertex.getIncomingEdge(0));
 		}
-		while (vertex.getOutgoingEdgeCount() > 0) {
+		while (vertex.totalOutgoingEdgeCount() > 0) {
 			this.removeEdge(vertex.getOutgoingEdge(0));
 		}
 		return vertex;

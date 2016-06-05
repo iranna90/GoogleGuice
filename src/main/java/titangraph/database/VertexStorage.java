@@ -31,7 +31,7 @@ public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String
 
 	@Override
 	public Vertex load(String id) {
-		// get the object from data base
+		/*// get the object from data base
 		Vertex returnValue = null;
 		try {
 			PreparedStatement searchStatement = c.prepareStatement("Select * from VERTEX where id = ?");
@@ -46,8 +46,8 @@ public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String
 		} catch (Exception exp) {
 			exp.printStackTrace();
 		}
-		System.out.println("Returned object is " + returnValue);
-		return returnValue;
+		return returnValue;*/
+		return null;
 	}
 
 	@Override
@@ -76,7 +76,6 @@ public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String
 
 	@Override
 	public void store(String id, Vertex vertex) {
-		System.out.println("insterting");
 		try {
 			// check already exists
 			PreparedStatement searchStatement = c.prepareStatement("Select * from VERTEX where id = ?");
@@ -111,7 +110,6 @@ public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String
 	@Override
 	public void storeAll(Map<String, Vertex> arg0) {
 		System.out.println("Store all");
-
 	}
 
 }
