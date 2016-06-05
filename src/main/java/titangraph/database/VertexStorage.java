@@ -7,10 +7,13 @@ import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.Map;
 
+import org.apache.commons.lang.SystemUtils;
+
 import com.hazelcast.core.MapLoader;
 import com.hazelcast.core.MapStore;
 
 import titangraph.graphtest.Vertex;
+import titangraph.utility.JsonParser;
 
 public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String, Vertex> {
 
@@ -28,7 +31,23 @@ public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String
 
 	@Override
 	public Vertex load(String id) {
-		return null;
+		// get the object from data base
+		Vertex returnValue = null;
+		try {
+			PreparedStatement searchStatement = c.prepareStatement("Select * from VERTEX where id = ?");
+			searchStatement.setString(1, id);
+			ResultSet res = searchStatement.executeQuery();
+			while (res.next()) {
+				returnValue = (Vertex) JsonParser.jsonToObject(res.getString("BODY"), Vertex.class);
+			}
+			res.close();
+			searchStatement.close();
+			c.commit();
+		} catch (Exception exp) {
+			exp.printStackTrace();
+		}
+		System.out.println("Returned object is " + returnValue);
+		return returnValue;
 	}
 
 	@Override
@@ -57,6 +76,7 @@ public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String
 
 	@Override
 	public void store(String id, Vertex vertex) {
+		System.out.println("insterting");
 		try {
 			// check already exists
 			PreparedStatement searchStatement = c.prepareStatement("Select * from VERTEX where id = ?");
@@ -69,7 +89,7 @@ public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String
 			if (count >= 1) {
 				// update
 				PreparedStatement updateStatement = c.prepareStatement("UPDATE VERTEX set BODY = ? where ID=?");
-				updateStatement.setString(1, vertex.toString());
+				updateStatement.setString(1, JsonParser.objectToJsonString(vertex));
 				updateStatement.setString(2, id);
 				updateStatement.executeUpdate();
 				updateStatement.close();
@@ -78,11 +98,10 @@ public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String
 				PreparedStatement insertStatement = c.prepareStatement("INSERT INTO VERTEX(ID,BODY) VALUES(?,?)");
 				// set the prepared statement parameters
 				insertStatement.setString(1, id);
-				insertStatement.setString(2, vertex.toString());
+				insertStatement.setString(2, JsonParser.objectToJsonString(vertex));
 				insertStatement.executeUpdate();
 				insertStatement.close();
 			}
-
 			c.commit();
 		} catch (Exception exp) {
 			exp.printStackTrace();

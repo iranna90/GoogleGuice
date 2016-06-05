@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * This class models a vertex in a graph. For ease of the reader, a label for
  * this vertex is required. Note that the Graph object only accepts one Vertex
@@ -14,6 +16,7 @@ import java.util.List;
  * is described by the Edges incident to it.
  *
  */
+@XmlRootElement
 public class Vertex implements Serializable {
 
 	/**

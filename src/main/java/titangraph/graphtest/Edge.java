@@ -5,6 +5,8 @@ package titangraph.graphtest;
  */
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * This class models an undirected Edge in the Graph implementation. An Edge
  * contains two vertices and a weight. If no weight is specified, the default is
@@ -19,6 +21,7 @@ import java.io.Serializable;
  * weight should be considered equitably in a pathfinding or spanning tree
  * algorithm.
  */
+@XmlRootElement
 public class Edge implements Serializable {
 
 	/**

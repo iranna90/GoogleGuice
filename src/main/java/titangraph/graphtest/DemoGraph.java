@@ -41,7 +41,7 @@ public class DemoGraph {
 	private void createVertices() {
 
 		// Create Device vertices : example create
-		System.out.println("started vertex creation");
+		System.out.println("started vertex creation yes");
 		createDeviceKeyVertices();
 		System.out.println("Device keys are created");
 		// Create GroupKey vertices
