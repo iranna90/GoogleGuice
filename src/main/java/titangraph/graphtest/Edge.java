@@ -141,4 +141,28 @@ public class Edge implements Serializable {
 		return "Edge [from=" + from + ", to=" + to + ", relation=" + relation + ", status=" + status + "]";
 	}
 
+	/**
+	 * 
+	 * @return int The hash code for this Edge
+	 */
+	public int hashCode() {
+		return (from + to).hashCode();
+	}
+
+	/**
+	 * 
+	 * @param other
+	 *            The Object to compare against this
+	 * @return ture iff other is an Edge with the same Vertices as this
+	 */
+	public boolean equals(Object other) {
+		if (!(other instanceof Edge)) {
+			return false;
+		}
+
+		Edge e = (Edge) other;
+
+		return ((this.from.equals(e.getFrom()) && this.to.equals(e.getTo()))
+				|| (this.to.equals(e.getFrom()) && this.from.equals(e.getTo())));
+	}
 }

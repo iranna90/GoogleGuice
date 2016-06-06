@@ -31,7 +31,7 @@ public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String
 
 	@Override
 	public Vertex load(String id) {
-		/*// get the object from data base
+		// get the object from data base
 		Vertex returnValue = null;
 		try {
 			PreparedStatement searchStatement = c.prepareStatement("Select * from VERTEX where id = ?");
@@ -46,8 +46,8 @@ public class VertexStorage implements MapStore<String, Vertex>, MapLoader<String
 		} catch (Exception exp) {
 			exp.printStackTrace();
 		}
-		return returnValue;*/
-		return null;
+		return returnValue;
+		//return null;
 	}
 
 	@Override

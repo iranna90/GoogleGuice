@@ -166,7 +166,8 @@ public class Vertex implements Serializable {
 	 *            The Edge to remove from this.neighborhood
 	 */
 	public void removeOutgoingEdge(Edge e) {
-		this.outgoingEdges.remove(e);
+		boolean returnvalue = this.outgoingEdges.remove(e);
+		System.out.println(returnvalue);
 	}
 
 	/**

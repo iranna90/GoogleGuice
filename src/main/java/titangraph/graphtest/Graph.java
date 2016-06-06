@@ -202,18 +202,17 @@ public class Graph {
 	 * @return true iff vertex was added to the Graph
 	 */
 	public boolean addVertex(Vertex vertex, boolean overwriteExisting) {
-		Vertex current = (Vertex) Graph.client.getMap(VERTEX_MAP).get(vertex.getId());
-		if (current != null) {
+		if ((Vertex) Graph.client.getMap(VERTEX_MAP).get(vertex.getId()) != null) {
 			if (!overwriteExisting) {
 				return false;
 			}
 			// to over write remove all incoming and outgoing edges
-			while (current.totalIncomingEdgeCount() > 0) {
-				this.removeEdge(current.getIncomingEdge(0));
+			while (((Vertex) Graph.client.getMap(VERTEX_MAP).get(vertex.getId())).totalIncomingEdgeCount() > 0) {
+				this.removeEdge(((Vertex) Graph.client.getMap(VERTEX_MAP).get(vertex.getId())).getIncomingEdge(0));
 			}
 
-			while (current.totalOutgoingEdgeCount() > 0) {
-				this.removeEdge(current.getOutgoingEdge(0));
+			while (((Vertex) Graph.client.getMap(VERTEX_MAP).get(vertex.getId())).totalOutgoingEdgeCount() > 0) {
+				this.removeEdge(((Vertex) Graph.client.getMap(VERTEX_MAP).get(vertex.getId())).getOutgoingEdge(0));
 			}
 		}
 		client.getMap(VERTEX_MAP).put(vertex.getId(), vertex);
@@ -227,15 +226,14 @@ public class Graph {
 	 * @return Vertex The removed Vertex object
 	 */
 	public Vertex removeVertex(String id) {
-		Vertex vertex = (Vertex) client.getMap(VERTEX_MAP).remove(id);
 		// to over write remove all incoming and outgoing edges
-		while (vertex.totalIncomingEdgeCount() > 0) {
-			this.removeEdge(vertex.getIncomingEdge(0));
+		while (((Vertex) client.getMap(VERTEX_MAP).get(id)).totalIncomingEdgeCount() > 0) {
+			this.removeEdge(((Vertex) client.getMap(VERTEX_MAP).get(id)).getIncomingEdge(0));
 		}
-		while (vertex.totalOutgoingEdgeCount() > 0) {
-			this.removeEdge(vertex.getOutgoingEdge(0));
+		while (((Vertex) client.getMap(VERTEX_MAP).get(id)).totalOutgoingEdgeCount() > 0) {
+			this.removeEdge(((Vertex) client.getMap(VERTEX_MAP).get(id)).getOutgoingEdge(0));
 		}
-		return vertex;
+		return (Vertex) client.getMap(VERTEX_MAP).remove(id);
 	}
 
 	/**
